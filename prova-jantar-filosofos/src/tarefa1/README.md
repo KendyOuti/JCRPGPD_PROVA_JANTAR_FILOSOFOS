@@ -1,4 +1,4 @@
-# 📄 Tarefa1: Implementação Básica com Deadlock
+# 📄 Tarefa 1: Implementação Básica com Deadlock
 
 ## 🍽️ Objetivo
 
