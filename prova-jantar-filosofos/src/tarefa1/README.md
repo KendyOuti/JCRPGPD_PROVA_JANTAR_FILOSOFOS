@@ -1,8 +1,8 @@
-# 📄 Tarefa1: Implementação Básica com Deadlock Comprovado
+# 📄 Tarefa1: Implementação Básica com Deadlock
 
 ## 🍽️ Objetivo
 
-Implementar o problema clássico do Jantar dos Filósofos em Java, com o objetivo de **demonstrar e registrar a condição de deadlock (impasse)** sob alta concorrência.
+Implementar o problema clássico do Jantar dos Filósofos em Java, com o objetivo de **demonstrar e registrar a condição de deadlock** sob alta concorrência.
 
 ## 🚀 Como Compilar e Executar
 
