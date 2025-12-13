@@ -54,6 +54,7 @@ public class Main {
         executor.shutdown(); // Inicia o desligamento, mas espera a conclusão das tarefas
         
         try {
+            System.out.println("\nTarefa 1 - Implementação Básica com Deadlock");
             System.out.println("\n*** Programa esperando por no máximo " + TEMPO_LIMITE_SEGUNDOS + " segundos... ***");
 
             if (!executor.awaitTermination(TEMPO_LIMITE_SEGUNDOS, TimeUnit.SECONDS)) {

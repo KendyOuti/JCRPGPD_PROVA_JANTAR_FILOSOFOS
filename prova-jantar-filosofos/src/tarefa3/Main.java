@@ -57,6 +57,7 @@ public class Main {
         executor.shutdown(); 
         
         try {
+            System.out.println("\nTarefa 3 - Solução com Semáforos");
             System.out.println("\n*** Programa esperando por no máximo " + TEMPO_LIMITE_SEGUNDOS + " segundos (2 minutos)... ***");
 
             if (!executor.awaitTermination(TEMPO_LIMITE_SEGUNDOS, TimeUnit.SECONDS)) {
