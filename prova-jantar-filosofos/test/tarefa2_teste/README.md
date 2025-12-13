@@ -1,4 +1,4 @@
-# Tarefa 2: Solução com Ordem Assimétrica (Versão de Testes para o Relatório Final)
+# Tarefa 2: Solução com Prevenção de Deadlock (Versão de Testes para o Relatório Final)
 
 Esta versão da Tarefa 2 foi modificada para coletar métricas de desempenho e justiça exigidas pela **Tarefa 5 (Análise Comparativa)**, mantendo a solução original de prevenção de *deadlock* através da ordem de aquisição dos garfos.
 
