@@ -1,4 +1,4 @@
-# 📚 Tarefa 4: Soluçãoo com Monitores e Garantia de Fairness (Versão de Testes para o Relatório Final)
+# 📚 Tarefa 4: Solução com Monitores e Garantia de Fairness (Versão de Testes para o Relatório Final)
 
 Esta versão da Tarefa 4 foi adaptada para coletar as métricas de desempenho e justiça exigidas pela **Tarefa 5 (Análise Comparativa)**, utilizando a solução de Monitor Central que previne *deadlock* e *starvation* através da verificação de estado (`COM_FOME`, `COMENDO`) e uso do `wait`/`notifyAll`.
 
