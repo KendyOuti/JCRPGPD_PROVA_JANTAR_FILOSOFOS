@@ -1,4 +1,4 @@
-# Tarefa 3: Solução com Semáforo Central N-1 (Versão de Testes para o Relatório Final)
+# Tarefa 3: Solução com Semáforos (Versão de Testes para o Relatório Final)
 
 Esta versão da Tarefa 3 foi modificada para coletar métricas de desempenho e justiça exigidas pela **Tarefa 5 (Análise Comparativa)**, mantendo a solução original de prevenção de *deadlock* através do Semáforo Central com $N-1$ permissões.
 
