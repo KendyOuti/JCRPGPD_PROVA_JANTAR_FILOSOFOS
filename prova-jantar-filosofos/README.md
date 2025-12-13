@@ -66,10 +66,11 @@ java Main
 
 ## 🧠 Análise e Documentação por Tarefa
 
-Os arquivos de código-fonte e o **[RELATORIO.md](https://www.google.com/search?q=./RELATORIO.md)** contêm a documentação detalhada, conforme os requisitos de cada tarefa.
+Os arquivos de código-fonte e o **[RELATORIO.md]([https://www.google.com/search?q=./RELATORIO.md](https://github.com/KendyOuti/JCRPGPD_PROVA_JANTAR_FILOSOFOS/blob/main/prova-jantar-filosofos/RELATORIO.md))** contêm a documentação detalhada, conforme os requisitos de cada tarefa.
 
   * **Tarefa 1 (Deadlock):** A implementação básica demonstra o deadlock circular. Uma explicação detalhada sobre a **condição para deadlock** (e.g., espera circular, posse e espera, exclusão mútua e não preempção) está no código e/ou documentação.
   * **Tarefa 2 (Ordem Diferente):** Explica a prevenção do *deadlock* pela quebra da condição de espera circular e discute a possibilidade de **starvation**.
   * **Tarefa 3 (Semáforos):** Explica como o semáforo previne *deadlock* limitando o número de filósofos que podem tentar comer simultaneamente (o que impede a espera circular).
   * **Tarefa 4 (Monitor/Fairness):** Detalha como o monitor centraliza o controle e utiliza `wait()`/`notifyAll()` ou mecanismos de fila para garantir **fairness**, prevenindo tanto *deadlock* quanto *starvation*.
-  * **Tarefa 5 (Relatório):** O arquivo **[RELATORIO.md](https://www.google.com/search?q=./RELATORIO.md)** apresenta todas as métricas de desempenho (refeições, tempo de espera, utilização, *fairness*) e uma análise crítica comparando as soluções em termos de performance, complexidade e uso de recursos.
+  * **Tarefa 5 (Relatório):** O arquivo **[RELATORIO.md]([https://www.google.com/search?q=./RELATORIO.md](https://github.com/KendyOuti/JCRPGPD_PROVA_JANTAR_FILOSOFOS/blob/main/prova-jantar-filosofos/RELATORIO.md))** apresenta todas as métricas de desempenho (refeições, tempo de espera, utilização, *fairness*) e uma análise crítica comparando as soluções em termos de performance, complexidade e uso de recursos.
+
