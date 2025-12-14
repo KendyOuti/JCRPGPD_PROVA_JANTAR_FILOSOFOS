@@ -38,41 +38,45 @@ O Monitor (`Mesa.java`) implementa uma lógica de **sinalização e reavaliaçã
 | **Deadlock** | **Quebra de Retenção e Espera:** O Monitor garante que um filósofo **nunca** segura um garfo enquanto espera por outro. A aquisição dos dois garfos (mudança para `COMENDO`) é uma **operação atômica** dentro do Monitor. Se ele não puder pegar os dois, ele espera, sem reter nenhum recurso. |
 | **Starvation** | **Garantia de Fairness:** O uso do estado `COM_FOME` e a liberação abrangente de todas as threads (`notifyAll()`) asseguram que o filósofo com a condição de comer satisfeita e que estava esperando por mais tempo será o próximo a ser acordado e prosseguir.  |
 
-## ⚖️ Comparações de Desempenho com Soluções Anteriores
+## ⚖️ Comparações de Desempenho com Soluções Anteriores (Tarefa 4)
 
-A Tarefa 4 (Monitor) foi projetada para otimizar a **Justiça** ao custo de uma leve perda de **Produtividade** em comparação com a Tarefa 2.
+A Tarefa 4 (Monitor) foi projetada especificamente para otimizar a **Justiça (*Fairness*)**, garantindo que a aquisição de garfos só ocorra sob condições seguras, ao custo teórico de uma leve perda de **Produtividade**. 
+
+### Resultados da Execução da Tarefa 4 (Monitor Central)
+
+O resultado final e as estatísticas de 2 minutos para o Monitor Central estão presentes no log no arquivo `tarefa4_log.png`.
+
+| Filósofo (ID) | Refeições Comidas | Ordem/Controle |
+| :---: | :---: | :---: |
+| **F1** | 23 | Monitor (wait/notify) |
+| **F2** | 24 | Monitor (wait/notify) |
+| **F3** | 23 | Monitor (wait/notify) |
+| **F4** | 24 | Monitor (wait/notify) |
+| **F5** | **22** | Monitor (wait/notify) |
+| **Total Geral de Refeições** | **116** | |
+
+### Comparação de Desempenho e Justiça (T2, T3 e T4)
 
 | Característica | Tarefa 2 (Ordem Assimétrica) | Tarefa 3 (Semáforo N-1) | **Tarefa 4 (Monitor/Fairness)** |
 | :--- | :--- | :--- | :--- |
-| **Produtividade Total** | 114 refeições | 76 refeições | **115 refeições** |
-| **Máx. Refeições** | 25 | 16 | **24** |
-| **Mín. Refeições** | 21 | 14 | **22** |
-| **Variação % (Inequidade)** | 16% | 12.5% | **8.3%** |
+| **Produtividade Total (Ref.)** | 115 | 110 | **116** |
+| **Máx. Refeições** | 25 | 23 | 24 |
+| **Mín. Refeições** | 20 | 21 | **22** |
+| **Variação % (Inequidade)** | 25% | 9.5% | **8.33%** |
+
+O cálculo da Variação Percentual, utilizada como métrica de Inequidade/Justiça, é dado por:
+$$\text{Variação Percentual} = \frac{(\text{Máx. Refeições} - \text{Mín. Refeições})}{\text{Máx. Refeições}} \times 100$$
+
+### Análise Crítica dos Resultados (Tarefa 4)
+
+1.  **Justiça Comprovada:** A variação percentual é de aproximadamente **8.33%**, a **menor de todas as soluções**. Este baixo valor **confirma o sucesso do Monitor na garantia de *fairness***, superando a Ordem Assimétrica (25%) e o Semáforo (9.5%) ao equilibrar a distribuição de recursos.
+2.  **Produtividade (116 Refeições):** A Tarefa 4 atingiu a maior produtividade total, mostrando que, apesar da complexidade da lógica de controle, o *overhead* não comprometeu significativamente o *throughput*.
+3.  **Garantia de Prevenção:** O Monitor é a solução conceitualmente mais robusta, garantindo tanto a prevenção de *deadlock* quanto a prevenção de *starvation*.
 
 ## 📈 Trade-offs entre as Diferentes Abordagens
 
 | Abordagem | Vantagens | Desvantagens |
 | :--- | :--- | :--- |
-| **Tarefa 2 (Ordem)** | Mais alta produtividade (menor restrição de código). | Risco de *Starvation* e maior variação na distribuição (16%). |
-| **Tarefa 3 (Semáforo)** | Garantia matemática simples contra *deadlock* ($N-1$). | Baixa produtividade (76 refeições) devido à restrição de concorrência. |
-| **Tarefa 4 (Monitor)** | **Melhor Justiça (*Fairness*)** (variação de apenas 8.3%). Prevenção garantida de *deadlock* e *starvation*. | Código mais complexo e mais suscetível a erros de sincronização (`wait`/`notifyAll`). |
-
-### Análise Crítica dos Resultados (Tarefa 4)
-
-1.  **Produtividade (115 Refeições):** A Tarefa 4 superou a Tarefa 2 em produtividade total, mostrando que a implementação do Monitor é altamente eficiente e não sofreu *overhead* significativo.
-2.  **Justiça Comprovada:** A variação percentual entre o filósofo que mais comeu (24 refeições) e o que menos comeu (22 refeições) é a menor de todas:
-    $$\text{Variação Percentual} = \frac{(24 - 22)}{24} \times 100 \approx 8.3\%$$
-    Este baixo valor **confirma o sucesso da solução de Monitor na garantia de *fairness***, pois a distribuição de recursos foi a mais equilibrada em todas as tarefas.
-
------
-
-### Resultados da Execução
-
-| Filósofo (ID) | Refeições Comidas | Ordem/Controle |
-| :---: | :---: | :---: |
-| **F1** | 23 | Monitor (wait/notify) |
-| **F2** | 23 | Monitor (wait/notify) |
-| **F3** | 24 | Monitor (wait/notify) |
-| **F4** | 22 | Monitor (wait/notify) |
-| **F5** | 23 | Monitor (wait/notify) |
-| **Total Geral de Refeições** | **115** | |
+| **Tarefa 2 (Ordem)** | Mais alta produtividade total. | Risco de *Starvation* e maior variação na distribuição (25%). |
+| **Tarefa 3 (Semáforo)** | Garantia matemática simples contra *deadlock* ($N-1$). Baixa latência (não medida aqui, mas observada na análise do **RELATORIO.md**). | Menor produtividade total. |
+| **Tarefa 4 (Monitor)** | **Melhor Justiça (*Fairness*)** (variação de 8.33%). Prevenção garantida de *deadlock* e *starvation*. | Código mais complexo e mais suscetível a erros de sincronização (`wait`/`notifyAll`). |
