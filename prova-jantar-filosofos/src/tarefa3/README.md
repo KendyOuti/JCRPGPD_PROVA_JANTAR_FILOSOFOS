@@ -50,31 +50,41 @@ A solução com semáforos previne o *deadlock* garantindo que a **Condição de
 
 ## 📊 Análise de Desempenho e Justiça (*Fairness*)
 
-### Resultados da Execução
+Esta seção consolida a análise da Tarefa 2 (Ordem Assimétrica) e da Tarefa 3 (Semáforo N-1) após execuções de 2 minutos, focando nos *trade-offs* entre Produtividade (*Throughput*) e Justiça (*Fairness*).
 
-A seguir estão as estatísticas obtidas após uma execução do programa por 2 minutos (120.000 ms).
+### Resultados da Execução da Tarefa 3 (Semáforo N-1)
 
-| Filósofo (ID) | Ordem de Aquisição | Refeições Comidas |
-| :---: | :--- | :---: |
-| **F1** | Esquerdo $\rightarrow$ Direito (Padrão) | 14 |
-| **F2** | Esquerdo $\rightarrow$ Direito (Padrão) | 15 |
-| **F3** | Esquerdo $\rightarrow$ Direito (Padrão) | 15 |
-| **F4** | Esquerdo $\rightarrow$ Direito (Padrão) | 16 |
-| **F5** | Esquerdo $\rightarrow$ Direito (Padrão) | 16 |
-| **Total Geral de Refeições** | | **76** |
+A solução com Semáforo N-1 (onde apenas 4 dos 5 filósofos podem tentar pegar garfos simultaneamente) demonstra uma distribuição muito mais uniforme. O resultado final do log está no arquivo `tarefa3_log.png`. 
+
+| Filósofo (ID) | Refeições Comidas | Ordem de Garfos |
+| :---: | :---: | :--- |
+| **F1** | 21 | Esquerdo $\rightarrow$ Direito (Padrão) |
+| **F2** | 22 | Esquerdo $\rightarrow$ Direito (Padrão) |
+| **F3** | 22 | Esquerdo $\rightarrow$ Direito (Padrão) |
+| **F4** | **23** | Esquerdo $\rightarrow$ Direito (Padrão) |
+| **F5** | 22 | Esquerdo $\rightarrow$ Direito (Padrão) |
+| **Total Geral de Refeições** | **110** | |
 
 ### Comparação de Desempenho (Tarefa 2 vs. Tarefa 3)
 
 | Critério | Tarefa 2: Ordem Assimétrica | Tarefa 3: Semáforo ($N-1$) |
 | :--- | :--- | :--- |
-| **Produtividade Total (Refeições)** | **114** | **76** |
-| **Melhor Desempenho Individual** | 25 (F3) | 16 (F4, F5) |
-| **Variação % (Justiça/Inequidade)** | $16\%$ (Variação de $25 \rightarrow 21$) | **$12.5\%$** (Variação de $16 \rightarrow 14$) |
+| **Produtividade Total (Refeições)** | **115** | 110 |
+| **Melhor Desempenho Individual** | 25 (F3) | 23 (F4) |
+| **Pior Desempenho Individual** | 20 (F4) | 21 (F1) |
+| **Variação Absoluta (Máx - Mín)** | 5 refeições (25 $\rightarrow$ 20) | **2 refeições** (23 $\rightarrow$ 21) |
+| **Variação % (Justiça/Inequidade)** | $25\%$ (Inequidade Alta) | **$9.5\%$** (Melhor Justiça) |
+
+*Nota: A Variação % é calculada como (Máx - Mín) / Mín.*
 
 ### Conclusão Comparativa
 
-1.  **Produtividade (Throughput):** A solução de **Ordem Assimétrica (Tarefa 2)** foi superior em produtividade (114 vs. 76 refeições). Isso ocorre porque a Tarefa 3 impõe uma restrição ativa e rígida ($N-1$), limitando o número de *threads* que podem concorrer pelos garfos, o que reduz a taxa total de refeições.
+1.  **Produtividade (Throughput):** A solução de **Ordem Assimétrica (Tarefa 2)** foi superior em produtividade (115 vs. 110 refeições). A Tarefa 2, sendo mais otimista, permite que mais *threads* entrem na região crítica, embora isso leve a um maior tempo de espera bloqueado (maior latência) e a uma competição mais acirrada. A restrição rígida $N-1$ da Tarefa 3 limita o número total de *threads* ativas, reduzindo a vazão marginalmente.
 
-2.  **Justiça (*Fairness*):** A solução de **Semáforo (Tarefa 3)** demonstrou ser mais justa. Com uma variação de apenas **$12.5\%$** entre o máximo e o mínimo, ela distribuiu o acesso ao recurso de forma mais equitativa. A restrição ativa do Semáforo força as *threads* a se revezarem na mesa, mitigando o risco de *starvation* em comparação com a competição livre da Tarefa 2 ($16\%$ de variação).
+2.  **Justiça (*Fairness*):** A solução de **Semáforo (Tarefa 3)** demonstrou ser significativamente mais justa. Com uma variação de apenas **$9.5\%$** entre o máximo e o mínimo, ela distribuiu o acesso ao recurso de forma mais equitativa. O Semáforo força as *threads* a se revezarem na mesa de maneira mais organizada, mitigando o risco de *starvation* inerente à competição livre da Tarefa 2 (25% de variação).
 
-**Conclusão Final:** Ambas as soluções garantem a prevenção do *deadlock*. A escolha entre elas depende da prioridade: se a meta é maximizar o número total de operações (Produtividade), a **Ordem Assimétrica** é melhor; se a meta é garantir que todas as *threads* progridam de forma mais igualitária (Justiça), a abordagem com **Semáforos** é preferível.
+**Conclusão Final:** Ambas as soluções garantem a prevenção do *deadlock*. A escolha entre elas depende da prioridade do sistema:
+* Se a meta é **maximizar o número total de operações** (Produtividade), a **Ordem Assimétrica (T2)** é marginalmente melhor.
+* Se a meta é **garantir que todas as *threads* progridam de forma igualitária** e previsível (Justiça e mitigar *Starvation*), a abordagem com **Semáforos (T3)** é claramente superior, sendo a solução recomendada para sistemas que exigem alta *fairness*.
+
+
