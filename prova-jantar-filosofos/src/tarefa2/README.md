@@ -47,27 +47,29 @@ Ao impor uma ordem não uniforme (assimetria) para o Filósofo F4, a dependênci
 | **Prevenção** | Nenhuma. | Quebra de Espera Circular (Ordem Assimétrica). |
 | **Starvation** | Alto risco. | Risco mitigado, mas **ainda presente** devido à competição não controlada. |
 
-## 📊 Conclusão e Análise Estatística
+## 📊 Conclusão e Análise Estatística (Tarefa 2 - Ordem Assimétrica)
+
+Os resultados estatísticos a seguir foram coletados e exibidos pelo código `Main.java` após uma execução de 2 minutos (120.000 ms). O registro completo destes dados está visível na imagem **`tarefa2_log.png`**.
 
 ### Resultados da Execução
 
-A seguir estão as estatísticas obtidas após uma execução do programa por 2 minutos (120.000 ms), **coletadas e exibidas pelo código `Main.java`**.
-
 | Filósofo (ID) | Ordem de Aquisição | Refeições Comidas |
 | :---: | :--- | :---: |
-| **F1** | Esquerdo $\rightarrow$ Direito | 23 |
+| **F1** | Esquerdo $\rightarrow$ Direito | 24 |
 | **F2** | Esquerdo $\rightarrow$ Direito | 24 |
-| **F3** | Esquerdo $\rightarrow$ Direito | 25 |
-| **F4** | **Direito $\rightarrow$ Esquerdo** (Invertida) | 21 |
-| **F5** | Esquerdo $\rightarrow$ Direito | 21 |
-| **Total Geral de Refeições** | | **114** |
+| **F3** | Esquerdo $\rightarrow$ Direito | **25** |
+| **F4** | **Direito $\rightarrow$ Esquerdo** (Invertida) | **20** |
+| **F5** | Esquerdo $\rightarrow$ Direito | 22 |
+| **Total Geral de Refeições** | | **115** |
 
 ### Análise Crítica dos Resultados
 
-1.  **Prevenção de Deadlock Confirmada:** O registro de **114 refeições no total** e a manutenção da atividade contínua durante 2 minutos **confirmam o sucesso da solução**. O sistema progrediu ininterruptamente, provando que a quebra da Espera Circular eliminou o *deadlock*.
-2.  **Mitigação, mas Presença de Inequidade:** A distribuição das refeições é relativamente agrupada (entre 21 e 25), indicando que o *starvation* total foi evitado. No entanto, há uma diferença perceptível de desempenho.
+1.  **Prevenção de Deadlock Confirmada:** O registro de **115 refeições no total** e a manutenção da atividade contínua durante 2 minutos **confirmam o sucesso da solução**. O sistema progrediu ininterruptamente, provando que a quebra da condição de Espera Circular (através da ordem assimétrica de aquisição de garfos) eliminou o *deadlock*.
+2.  **Mitigação, mas Presença de Inequidade (*Fairness*):** A distribuição das refeições é relativamente agrupada (entre 20 e 25), indicando que o *starvation* total foi evitado. No entanto, a diferença entre o máximo e o mínimo demonstra uma clara falta de justiça (*fairness*) na distribuição de recursos.
 3.  **Filósofos com Maior Inequidade (Starvation Potencial):**
-      * **F3 (25 refeições):** Apresentou o maior número de refeições.
-      * **F4 e F5 (21 refeições):** Estão empatados com o menor número de refeições. F5 (vizinho do filósofo de ordem invertida) e F4 (o próprio filósofo de ordem invertida) continuam sendo os mais afetados pela assimetria, comprovando que a estratégia de prevenção afeta a justiça (*fairness*) da distribuição.
+    * **F3 (25 refeições):** Apresentou o maior número de refeições.
+    * **F4 (20 refeições):** Apresentou o menor número de refeições. F4, o filósofo cuja ordem de aquisição foi invertida para prevenir o *deadlock*, é o mais afetado pela assimetria imposta, comprovando que a estratégia de prevenção afeta diretamente a justiça.
+4.  **Conclusão:** Esta disparidade (variação de 25% entre o máximo e o mínimo) demonstra que, embora a solução de inversão garanta a **produtividade** (previne *deadlock*), ela não garante a **justiça** (*fairness*) no uso dos recursos, mantendo o risco de *starvation* (inanição) para os filósofos na posição desfavorecida.
 
-Esta leve disparidade (variação de 16% entre o máximo e o mínimo) demonstra que, embora a solução de inversão garanta a **produtividade** (previne *deadlock*), ela não garante a **justiça** (*fairness*) perfeita no uso dos recursos, mantendo o risco de *starvation* (inanição) para certos filósofos.
+
+
