@@ -58,7 +58,7 @@ public class Main {
     private static void exibirEstatisticas(List<Filosofo> filosofos, long duracaoExecucaoMs, String controle, final int NUM_FILOSOFOS) {
         
         System.out.println("\n=======================================================");
-        System.out.println("📊 ESTATÍSTICAS DE REFEIÇÕES (CONTROLE: " + controle + ")");
+        System.out.println("  ESTATÍSTICAS DE REFEIÇÕES (CONTROLE: " + controle + ")");
         System.out.println("TEMPO DE EXECUÇÃO: " + (duracaoExecucaoMs / 1000.0) + " segundos");
         System.out.println("=======================================================");
         
