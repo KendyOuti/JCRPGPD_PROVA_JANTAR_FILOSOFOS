@@ -55,84 +55,72 @@ O registro dessas métricas em cada uma das três soluções forma a base de dad
 
 ## 3. Resultados: Tabelas e Comparação de Métricas
 
-Para avaliar o desempenho e a justiça de cada solução implementada, foram coletadas as métricas detalhadas a seguir durante o período de 5 minutos de execução controlada.
-
-### 3.1. Definição das Métricas
-
-As métricas escolhidas refletem os aspectos cruciais de um sistema concorrente: **Throughput (Vazão)**, **Latência (Espera)** e **Fairness (Justiça)**.
-
-1.  **Número Total de Vezes que Cada Filósofo Comeu (Refeições Totais):** Mede o *Throughput* global do sistema. Um valor mais alto indica que o mecanismo de controle é mais eficiente em liberar os recursos.
-2.  **Tempo Médio de Espera entre Tentativas de Comer:** O tempo médio em milissegundos que um filósofo passa bloqueado no ponto de sincronização. Um valor mais baixo indica um sistema mais responsivo (menor Latência).
-3.  **Taxa de Utilização dos Garfos (Estimada):** A porcentagem do tempo total em que os recursos foram *efetivamente* utilizados. Uma taxa mais alta indica melhor aproveitamento da capacidade máxima teórica.
-4.  **Distribuição Justa de Oportunidades (Coeficiente de Variação - CV):** Mede a justiça (*Fairness*) na distribuição de oportunidades. **Quanto mais próximo de zero, mais justa é a distribuição**, e menor é o risco de *starvation*.
-
 ### 3.2. Resultados Individuais das Execuções (5 Minutos)
 
-Abaixo estão os dados brutos coletados ao final da execução de cada uma das três soluções:
+Os testes foram executados por aproximadamente 300 segundos, e os dados brutos de cada solução foram coletados. As imagens dos logs de resultados (`tarefaX_teste_log.png`) estão localizadas em seus respectivos diretórios (`/test/tarefaX_teste`).
 
-#### 3.2.1. Tarefa 2: Solução com Prevenção de Deadlock (T2)
+#### 3.2.1. Tarefa 2: Solução com Prevenção de Deadlock (T2 - Ordem Assimétrica)
 
-Esta solução utiliza uma regra assimétrica de aquisição de garfos (pares pegam Esquerda-Direita; ímpares pegam Direita-Esquerda) para prevenir *deadlock*.
-
-| Filósofo | Refeições | Tentativas | Tempo Médio Esp. (ms) |
-| :--- | :--- | :--- | :--- |
-| F1 | 62 | 62 | 961,32 |
-| F2 | 59 | 59 | 1061,83 |
-| F3 | 59 | 59 | 1228,12 |
-| F4 | 55 | 55 | 1546,44 |
-| F5 | 56 | 56 | 1488,70 |
-| **Geral** | **291** | **331** | **1097,07** |
-
-> **Métricas Chave:** Total de Refeições: 291 | Tempo Médio Espera: 1097,07 ms | CV: 4,26% | Utilização: 38,80%
-
-#### 3.2.2. Tarefa 3: Solução com Semáforos (T3)
-
-Esta solução utiliza um semáforo com $N-1$ permissões (4 permissões para 5 filósofos) para limitar o número de filósofos que tentam pegar garfos simultaneamente.
+Esta solução utiliza uma regra assimétrica de aquisição de garfos para prevenir *deadlock*.
 
 | Filósofo | Refeições | Tentativas | Tempo Médio Esp. (ms) |
 | :--- | :--- | :--- | :--- |
-| F1 | 55 | 56 | 29,38 |
-| F2 | 58 | 58 | 23,00 |
-| F3 | 56 | 57 | 31,05 |
-| F4 | 57 | 58 | 70,41 |
-| F5 | 56 | 56 | 92,68 |
-| **Geral** | **282** | **285** | **49,20** |
+| F1 | 60 | 60 | 1056,70 |
+| F2 | 59 | 59 | 1173,34 |
+| F3 | 60 | 60 | 1236,73 |
+| F4 | 54 | 54 | 1519,93 |
+| F5 | 54 | 54 | 1571,52 |
+| **Geral** | **287** | **287** | **1247,66** |
 
-> **Métricas Chave:** Total de Refeições: 282 | Tempo Médio Espera: 49,20 ms |CV: 1,81% | Utilização: 37,60%
+> **Métricas Chave:** Total de Refeições: **287** | Tempo Médio Espera: 1247,66 ms | CV: **4,88%** | Utilização: 38,27%
 
-#### 3.2.3. Tarefa 4: Solução com Monitores e Garantia de Fairness (T4)
+#### 3.2.2. Tarefa 3: Solução com Semáforos (T3 - $N-1$)
 
-Esta solução utiliza um Monitor (classe `Mesa` com `synchronized`, `wait`/`notifyAll`) para gerenciar o acesso aos garfos, permitindo que um filósofo coma apenas se seus vizinhos não estiverem comendo.
+Esta solução utiliza um semáforo com $N-1$ permissões para limitar o número de filósofos que tentam pegar garfos simultaneamente.
 
 | Filósofo | Refeições | Tentativas | Tempo Médio Esp. (ms) |
 | :--- | :--- | :--- | :--- |
-| F1 | 57 | 57 | 1057,37 |
-| F2 | 57 | 57 | 1218,00 |
-| F3 | 56 | 56 | 1149,52 |
-| F4 | 57 | 57 | 1246,28 |
-| F5 | 58 | 58 | 1349,79 |
-| **Geral** | **285** | **285** | **1204,89** |
+| F1 | 44 | 45 | 107,42 |
+| F2 | 46 | 46 | 109,04 |
+| F3 | 45 | 46 | 119,11 |
+| F4 | 46 | 46 | 131,24 |
+| F5 | 46 | 47 | 72,94 |
+| **Geral** | **227** | **230** | **117,31** |
 
-> **Métricas Chave:** Total de Refeições: 285 | Tempo Médio Espera: 1204,89 ms | CV: 1,11% | Utilização: 38,00%
+> **Métricas Chave:** Total de Refeições: 227 | Tempo Médio Espera: **117,31 ms** | CV: 1,76% | Utilização: 30,27%
+
+#### 3.2.3. Tarefa 4: Solução com Monitores e Garantia de Fairness (T4 - Monitor Central)
+
+Esta solução utiliza um Monitor para gerenciar o acesso aos garfos.
+
+| Filósofo | Refeições | Tentativas | Tempo Médio Esp. (ms) |
+| :--- | :--- | :--- | :--- |
+| F1 | 57 | 58 | 1169,97 |
+| F2 | 58 | 58 | 1416,40 |
+| F3 | 59 | 59 | 1082,88 |
+| F4 | 58 | 59 | 1227,93 |
+| F5 | 58 | 58 | 1214,14 |
+| **Geral** | **290** | **292** | **1221,50** |
+
+> **Métricas Chave:** Total de Refeições: **290** | Tempo Médio Espera: 1221,50 ms | CV: **1,09%** | Utilização: **38,67%**
 
 ### 3.3. Tabela de Resultados Consolidados e Comparativos
-
-Para facilitar a análise, os dados chave de cada teste são comparados na tabela abaixo:
 
 | Métrica | Solução 1 (T2) | Solução 2 (T3) | Solução 3 (T4) |
 | :--- | :--- | :--- | :--- |
 | **Controle Utilizado** | Ordem Assimétrica | Semáforo N-1 | Monitor Central |
-| **Tempo de Execução (s)** | 300,006 | 300,004 | 300,005 |
-| **Total de Refeições** | **291** | 282 | 285 |
-| **Tempo Médio Espera (ms)** | 1097,07 | **49,20** | 1204,89 |
-| **Coef. de Variação (%)** | 4,26% | 1,81% | **1,11%** |
-| **Taxa de Utilização (%)** | **38,80%** | 37,60% | 38,00% |
+| **Total de Refeições (Vazão)** | 287 | 227 | **290** |
+| **Tempo Médio Espera (Latência)** | 1247,66 ms | **117,31 ms** | 1221,50 ms |
+| **Coef. de Variação (%)** | 4,88% | 1,76% | **1,09%** |
+| **Taxa de Utilização (%)** | 38,27% | 30,27% | **38,67%** |
+
+O Coeficiente de Variação (CV) é a métrica de **Justiça (*Fairness*)**. Quanto menor o valor, mais justa é a distribuição de oportunidades entre os filósofos.
 
 ---
 
 ## 4. Análise Crítica: Comparação e Avaliação dos Resultados
 
-A avaliação das três soluções revela *trade-offs* distintos entre o desempenho puro (Throughput) e a previsibilidade/justiça (Latência e Fairness).
+A avaliação das três soluções revela *trade-offs* distintos entre o desempenho puro (*Throughput*) e a previsibilidade/justiça (Latência e *Fairness*).
 
 ### 4.1. Prevenção de Deadlock
 
@@ -146,28 +134,28 @@ Todas as três soluções foram bem-sucedidas em prevenir o *deadlock*, conforme
 
 ### 4.2. Prevenção de Starvation (Justiça - *Fairness*)
 
-A justiça é medida pelo **Coeficiente de Variação (CV)** do número de refeições. Quanto menor o CV, mais justa e uniforme é a distribuição de oportunidades.
+A justiça é medida pelo **Coeficiente de Variação (CV)** do número de refeições.
 
 | Solução | Coeficiente de Variação (CV) | Avaliação |
 | :--- | :--- | :--- |
-| **T2 (Ordem Assimétrica)** | 4,26% | **Pior**. Embora funcional, a ordem fixa introduz uma assimetria no tempo de espera, sendo menos justo. |
-| **T3 (Semáforo N-1)** | 1,81% | **Bom**. O controle centralizado ajuda a regular as entradas, distribuindo as oportunidades de forma mais uniforme. |
-| **T4 (Monitor Central)** | **1,11%** | **Melhor**. O monitor é o mais justo porque a condição (`wait()`) é reavaliada por todos que estão esperando (`notifyAll()`), permitindo que a thread que satisfaz a condição primeiro (e que pode estar esperando há mais tempo) prossiga. |
+| **T2 (Ordem Assimétrica)** | **4,88%** | **Pior**. A ordem fixa cria a maior assimetria e desigualdade, resultando no maior risco de *starvation*. |
+| **T3 (Semáforo N-1)** | 1,76% | **Bom**. O controle central ajuda a uniformizar o acesso, sendo muito mais justo que a T2. |
+| **T4 (Monitor Central)** | **1,09%** | **Melhor**. O mecanismo baseado em estado (`wait/notifyAll`) e verificação de condição garante a distribuição mais equitativa de oportunidades, confirmando ser a solução mais justa. |
 
 ### 4.3. Performance/Throughput (*Latência vs. Vazão*)
 
-O desempenho é a área onde se observam os *trade-offs* mais significativos entre Latência (Tempo de Espera) e Vazão (Total de Refeições).
+O desempenho revela os *trade-offs* mais significativos.
 
 | Métrica | T2 (Ordem Assimétrica) | T3 (Semáforo N-1) | T4 (Monitor Central) |
 | :--- | :--- | :--- | :--- |
-| **Total de Refeições (Vazão)** | **291** | 282 | 285 |
-| **Taxa de Utilização (%)** | **38,80%** | 37,60% | 38,00% |
-| **Tempo Médio Espera (ms)** | 1097,07 | **49,20** | 1204,89 |
+| **Total de Refeições (Vazão)** | 287 | 227 | **290** |
+| **Taxa de Utilização (%)** | 38,27% | 30,27% | **38,67%** |
+| **Tempo Médio Espera (ms)** | 1247,66 | **117,31** | 1221,50 |
 
 #### Análise:
-* **Vazão (Throughput):** A **T2 (Ordem Assimétrica)** atingiu o maior *throughput* (291 refeições). Isso ocorre porque, apesar da alta latência individual, a T2 é a solução mais **otimista**, baseada em tentativa e erro. As *threads* gastam tempo esperando bloqueadas nos garfos, mas o mecanismo permite o maior grau de concorrência simultânea.
-* **Latência (Tempo de Espera):** A **T3 (Semáforo N-1)** é a vencedora absoluta em baixa latência (49,20 ms). O Semáforo força a espera em uma fila rápida de controle central, garantindo que quando a thread for liberada, ela quase certamente comerá imediatamente.
-* **T4 (Monitor Central):** Apresentou a pior latência (1204,89 ms). Assim como na T2, o tempo é gasto no bloqueio (`wait()`), mas a T4 oferece a melhor justiça (CV 1,11%).
+* **Vazão (Throughput):** O **Monitor Central (T4)** atingiu o maior *throughput* (290 refeições). Isso indica que, embora seja mais complexo, a inteligência da T4 em coordenar o uso dos garfos supera a simplicidade da T2, gerando maior produtividade no final.
+* **Latência (Tempo de Espera):** A **T3 (Semáforo N-1)** é a vencedora absoluta em baixa latência (117,31 ms). A restrição $N-1$ força a espera em uma fila rápida de controle, o que resulta em um tempo de resposta muito mais rápido do que o bloqueio direto nos garfos (T2 e T4, com mais de 1.200 ms).
+* **T2 (Ordem Assimétrica):** Apresentou a pior performance geral. Apesar de ser simples, sua baixa justiça e alta latência não resultaram na vazão máxima esperada, sendo superada pela T4.
 
 ### 4.4. Complexidade de Implementação
 
@@ -181,54 +169,54 @@ O desempenho é a área onde se observam os *trade-offs* mais significativos ent
 
 | Solução | Uso de Recursos | Observação |
 | :--- | :--- | :--- |
-| **T2 (Ordem Assimétrica)** | Locks de CPU/Memória | Utiliza locks de monitor nativos do Java (`synchronized`). A alta espera (1097 ms) é gasta como **tempo de bloqueio no recurso**. |
-| **T3 (Semáforo N-1)** | Objeto de Sincronização Externo | Introduz um Semáforo como recurso de controle central. O tempo de espera (49 ms) é gasto esperando a **permissão** do semáforo, e não o garfo diretamente. |
+| **T2 (Ordem Assimétrica)** | Locks de CPU/Memória | Utiliza locks de monitor nativos do Java (`synchronized`). A alta espera (1247,66 ms) é gasta como **tempo de bloqueio no recurso**. |
+| **T3 (Semáforo N-1)** | Objeto de Sincronização Externo | Introduz um Semáforo como recurso de controle central. O tempo de espera (117,31 ms) é gasto esperando a **permissão** do semáforo, e não o garfo diretamente. |
 | **T4 (Monitor Central)** | Estado e Controle Interno | Introduz complexidade e consumo de memória ao manter o **estado (`Estado[] estado`) de todos os filósofos** dentro do monitor, além de locks nativos e chamadas de `wait`/`notifyAll`. |
 
 ---
 
 ## 5. Conclusão: Qual solução é mais adequada para diferentes cenários e por quê?
 
-A análise comparativa entre as três soluções demonstrou que não existe uma solução universalmente "melhor". A escolha ideal depende da prioridade do sistema: **Vazão (Throughput)**, **Latência (Tempo de Espera)**, ou **Justiça (*Fairness*)**.
+A análise comparativa entre as três soluções demonstrou que a Solução 3 (Monitor Central) é a mais robusta, enquanto a Solução 2 (Semáforo N-1) é a mais reativa.
 
 ### Sumário dos Aprendizados Chave
 
 | Métrica | T2: Ordem Assimétrica | T3: Semáforo N-1 | T4: Monitor Central |
 | :--- | :--- | :--- | :--- |
-| **Justiça (CV)** | Pior (4,26%) | Boa (1,81%) | **Melhor (1,11%)** |
-| **Latência (Espera)** | Alta (1097,07 ms) | **Baixa (49,20 ms)** | Altíssima (1204,89 ms) |
-| **Vazão (Refeições)** | **Máxima (291)** | Média (282) | Média (285) |
+| **Justiça (CV)** | Pior (4,88%) | Boa (1,76%) | **Melhor (1,09%)** |
+| **Latência (Espera)** | Alta (1247,66 ms) | **Baixa (117,31 ms)** | Altíssima (1221,50 ms) |
+| **Vazão (Refeições)** | Média (287) | Mínima (227) | **Máxima (290)** |
 | **Complexidade** | Baixa | Média | Alta |
 
 ### Escolha da Solução Ideal por Cenário
 
 Com base nos resultados e na análise de complexidade, as soluções se encaixam em diferentes cenários operacionais:
 
-#### 🥇 1. Solução Ideal para Justiça (Fairness) e Prevenção de Starvation: Monitor Central (T4)
+#### 🥇 1. Solução Ideal para Máxima Vazão e Justiça: Monitor Central (T4)
 
-* **Vantagem:** A T4 forneceu o **melhor Coeficiente de Variação (1,11%)**, garantindo que todos os filósofos tivessem o número mais próximo de oportunidades de comer, minimizando o risco de *starvation*.
-* **Porquê:** A lógica do Monitor, que avalia o estado dos vizinhos antes de permitir o acesso e usa o `notifyAll()` para acordar todas as *threads* famintas para reavaliação, é o mecanismo mais justo, pois garante que as condições sejam satisfeitas de forma explícita e uniforme.
-* **Trade-off:** Esta justiça tem o custo da **pior latência** (1204,89 ms) devido à sobrecarga da coordenação central e do tempo gasto pelas *threads* em `wait()`.
+* **Vantagem:** A T4 forneceu a **melhor combinação**, liderando tanto em **Vazão (290 refeições)** quanto em **Justiça (CV 1,09%)**. É a solução mais robusta.
+* **Trade-off:** Esta robustez tem o custo da **pior latência** (1221,50 ms).
 
 #### 🥈 2. Solução Ideal para Baixa Latência e Controle de Fluxo: Semáforo N-1 (T3)
 
-* **Vantagem:** A T3 entregou a **menor latência (49,20 ms)**.
-* **Porquê:** Ao restringir o número de concorrentes para $N-1$, o Semáforo atua como um portão de entrada rápido. As *threads* gastam pouco tempo esperando pela permissão e muito mais tempo efetivamente trabalhando, tornando o sistema extremamente responsivo.
-* **Trade-off:** A restrição centralizada causou uma vazão ligeiramente menor (282 refeições) em comparação com a T2, pois limita o potencial máximo de concorrência. É a solução ideal quando a **previsibilidade e o tempo de resposta rápido** (baixa latência) são mais críticos que o *throughput* bruto.
+* **Vantagem:** A T3 entregou a **menor latência (117,31 ms)**.
+* **Porquê:** O controle de permissão centralizado reduz drasticamente o tempo que as *threads* passam em estado bloqueado.
+* **Trade-off:** A restrição $N-1$ causou a vazão mais baixa de todos os testes (227 refeições). É a solução ideal quando a **previsibilidade e o tempo de resposta rápido** (baixa latência) são mais críticos.
 
-#### 🥉 3. Solução Ideal para Máxima Vazão (Throughput): Ordem Assimétrica (T2)
+#### 🥉 3. Solução Ideal para Baixa Complexidade: Ordem Assimétrica (T2)
 
-* **Vantagem:** A T2 atingiu a **maior vazão (291 refeições)** e a maior taxa de utilização dos garfos (38,80%).
-* **Porquê:** A T2 é a solução mais "livre" e **otimista**. Ela não impõe uma restrição central de permissões nem um controle de estado complexo; apenas uma regra local para quebrar o *deadlock*. Isso permite que o sistema maximize o número de acessos simultâneos.
-* **Trade-off:** Essa otimização para *throughput* veio ao custo da **pior justiça (CV 4,26%)** e da **alta latência** (1097,07 ms), pois os filósofos gastam muito tempo bloqueados esperando pelos recursos.
+* **Vantagem:** É a mais simples de implementar (Baixa Complexidade).
+* **Porquê:** Requer apenas uma regra local em torno de locks nativos.
+* **Trade-off:** Essa simplicidade veio ao custo da **pior justiça (CV 4,88%)** e da **alta latência**, tornando-a a opção menos eficiente para cenários de alta concorrência.
 
 ### Conclusão Final
 
 | Cenário | Solução Recomendada | Motivo Principal |
 | :--- | :--- | :--- |
-| **Alta Justiça (Fairness)** | Monitor Central (T4) | O mecanismo de avaliação de estado e `notifyAll()` garante a distribuição de oportunidades mais equitativa (CV 1,11%). |
-| **Baixa Latência** | Semáforo N-1 (T3) | O controle de permissão centralizado reduz drasticamente o tempo que as *threads* passam em estado bloqueado (49,20 ms). |
-| **Máxima Vazão (Throughput)** | Ordem Assimétrica (T2) | Permite o maior grau de concorrência, resultando no maior número total de refeições (291), apesar da latência alta e desigual. |
+| **Alta Justiça e Vazão** | Monitor Central (T4) | O mecanismo de avaliação de estado e `notifyAll()` garante a melhor vazão e a distribuição de oportunidades mais equitativa. |
+| **Baixa Latência** | Semáforo N-1 (T3) | O controle de permissão centralizado reduz drasticamente o tempo que as *threads* passam em estado bloqueado. |
+| **Baixa Complexidade** | Ordem Assimétrica (T2) | Solução mais simples de codificar, mas com performance instável e injusta. |
 
-A solução de **Monitor Central (T4)** é a mais elegante e robusta conceitualmente para o Problema do Jantar dos Filósofos, pois trata o acesso ao recurso de forma atômica e justa. Contudo, em termos de performance de execução (latência), a solução do **Semáforo N-1 (T3)** demonstrou ser a mais eficiente.
+
+
 
